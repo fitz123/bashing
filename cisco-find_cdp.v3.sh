@@ -34,7 +34,7 @@ cat $devip | while read line; do
      #Join successive rows in pairs
      sed -i 'N;s/\n//' $output2
 
-     #Getting the name of the switch and a model
+     #Getting the name of the switch, a model and a serial number
      name=`cat $output | egrep ".*[>#]$" -m 1 | sed 's/[>#]//' | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g'`
      model=`grep "NAME: \"1\", DESCR:" $output | cut -d":" -f3 | tr -d ' ','"' | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g'`
      sn=`egrep -A 1 "NAME: \"1"\" $output | tail -n1 | cut -d: -f4 | tr -d ' ' | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g'`
