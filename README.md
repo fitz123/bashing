@@ -1,4 +1,0 @@
-bashing
-=======
-
-Useful shell scripts
