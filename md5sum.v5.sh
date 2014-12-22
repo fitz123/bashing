@@ -1,6 +1,6 @@
 #!/bin/bash
 # 
-# The script about md5 sum multithread calculation
+# The script about md5sum multithread calculation
 # Has been used for the fileshare to compare files before and after copy
 #
 result="/home/lugovoy/md5sum.v5.csv"
@@ -12,17 +12,18 @@ lists="/home/lugovoy/lists"
 root="/media/samba"
 
 rm -f $log
+rm -f $lists
 find $listdir -type f -exec /bin/rm {} \;
 
 echo -e "Find starts"'\t'`date`'\t'`date +%s` >> $log
 echo -e "Find starts"'\t'`date`'\t'`date +%s`
-#find "${root}" -type f ! -path "/media/samba/NAS/*" ! -path "/media/samba/nas/*" ! -path "/media/samba/printer/*" > $filelist
+find "${root}" -type f ! -path "/media/samba/NAS/*" ! -path "/media/samba/nas/*" ! -path "/media/samba/printer/*" > $filelist
 files=`wc -l $filelist | cut -d" " -f1`
 echo -e "Find finished"'\t'$files" files found"'\t'`date`'\t'`date +%s` >> $log
 echo -e "Find finished"'\t'$files" files found"'\t'`date`'\t'
 if [ ! -d "$listdir" ]; then mkdir $listdir; fi
 cd $listdir
-maxjobs=200
+maxjobs=$(nproc)
 let splitby=$files/$maxjobs
 #echo $files
 #echo $splitby
