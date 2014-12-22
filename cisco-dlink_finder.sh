@@ -15,10 +15,15 @@ printf "show interfaces status\nshow mac address-table\n" > $defdir/cmdfile
 
 #Creating a records of the unused ports for each device
 cat $devip | while read line
-        do
-     output=$defdir/output-inv
-     #Getting credentials from line
+    do
      host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
+        if [ -d "$DIRECTORY" ]; then
+            output=$defdir/temp-mac-tables/host
+        else
+            mkdir $defdir/temp-mac-tables
+            output=$defdir/temp-mac-tables/host
+        fi
+     #Getting credentials from $line
      user="root"
      pass=`echo $line | cut -d',' -f3`
 
@@ -38,5 +43,5 @@ cat $devip | while read line
                                 echo $devname$ph$module$ph$desc$ph$SN >> $result
                         done
 #                rm $output
-        done
+    done
 
