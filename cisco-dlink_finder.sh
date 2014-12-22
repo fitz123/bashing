@@ -48,5 +48,5 @@ cat $devip | while read line
         sed -e '1,/show mac address-table/d' $output | egrep -i -v "$trunks|CPU" | egrep "Gi[0-9]|Fa[0-9]|Te[0-9]|Po[0-9]" |\
         awk '{print $4}' | uniq -D | uniq -c |\
         sed "s/^/$devname $host/" | sed "s/ \+/$ph/g" >> $result
-	scp $result lugovoy@192.168.99.8:/media/samba/oit
     done
+scp $result lugovoy@192.168.99.8:/media/samba/oit
