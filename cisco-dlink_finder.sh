@@ -11,7 +11,7 @@ result=$defdir/dlinks.txt
 printf "show interfaces status\nshow mac address-table\n" > $defdir/cmdfile
 
 #Check file title
-echo "Switch name"$ph"Module Name"$ph"Module Describe"$ph"Serial Number" > $result
+#echo "Switch name"$ph"Module Name"$ph"Module Describe"$ph"Serial Number" > $result
 
 #Creating a records of the unused ports for each device
 cat $devip | while read line
