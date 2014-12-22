@@ -2,9 +2,9 @@
 
 #Variables
 defdir=/home/kalina
-scriptdir=$defdir
+scriptdir=$defdir/scripts
 devip=$defdir/alldev3
-ph=' ' #place holder
+ph=';' #place holder
 result=$defdir/dlinks.txt
 
 #Create a file with remote tcl commands
@@ -47,5 +47,6 @@ cat $devip | while read line
         # In total we have list on the ports that have more than 1 mac behind and how many
         sed -e '1,/show mac address-table/d' $output | egrep -i -v "$trunks|CPU" | egrep "Gi[0-9]|Fa[0-9]|Te[0-9]|Po[0-9]" |\
         awk '{print $4}' | uniq -D | uniq -c |\
-        sed "s/^/$devname $host/" >> $result
+        sed "s/^/$devname $host/" | sed "s/ \+/$ph/g" >> $result
+	scp $result lugovoy@192.168.99.8:/media/samba/oit
     done
