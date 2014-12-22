@@ -17,7 +17,7 @@ printf "show interfaces status\nshow mac address-table\n" > $defdir/cmdfile
 cat $devip | while read line
     do
      host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
-        if [ -d "$DIRECTORY" ]; then
+        if [ -d "$output=$defdir/temp-mac-tables/" ]; then
             output=$defdir/temp-mac-tables/host
         else
             mkdir $defdir/temp-mac-tables
