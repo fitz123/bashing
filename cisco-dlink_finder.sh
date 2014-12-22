@@ -3,12 +3,12 @@
 #Variables
 defdir=/home/kalina
 scriptdir=$defdir
-devip=$defdir/alldev3
+devip=$defdir/alldev
 ph=',' #place holder
-result=$defdir/cisco_SN.txt
+result=$defdir/dlinks.txt
 
 #Create a file with remote tcl commands
-echo "sh inventory" > $defdir/cmdfile
+printf "show interfaces status\nshow mac address-table\n" > $defdir/cmdfile
 
 #Check file title
 echo "Switch name"$ph"Module Name"$ph"Module Describe"$ph"Serial Number" > $result
@@ -23,7 +23,7 @@ cat $devip | while read line
      pass=`echo $line | cut -d',' -f3`
 
      #Execute the script to $output in raw format
-     $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile > $output
+     $scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile > $output
 
                 #Clear output: removing "^M", "tabulators", "--More--" and replacing more that 1 space to 1 space
                 sed -i 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/ \+/ /g' $output
