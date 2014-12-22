@@ -12,7 +12,9 @@ lists="/home/lugovoy/lists"
 root="/media/samba"
 
 rm -f $log
+rm -f $result
 rm -f $lists
+
 find $listdir -type f -exec /bin/rm {} \;
 
 echo -e "Find starts"'\t'`date`'\t'`date +%s` >> $log
@@ -32,8 +34,6 @@ cd ../
 find $listdir -type f > $lists
 
 date_s=`date +%s`
-
-rm -f $result
 
 file_proc () {
     file=$1
