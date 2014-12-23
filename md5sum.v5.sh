@@ -14,7 +14,7 @@ root="/media/samba/oit/DOMINO/"
 
 echo -e "Previous result deleting is started"'\t'`date`'\t'`date +%s` >> $log
 echo -e "Previous result deleting is started"'\t'`date`'\t'
-rm -f $log
+#rm -f $log
 rm -f $result
 rm -f $lists
 
