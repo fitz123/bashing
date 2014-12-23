@@ -3,11 +3,6 @@
 # The script about md5sum multithread calculation
 # Has been used for the to compare files before and after copy from the one server to the another
 #
-# You can monitor the progress by manually perform the command:
-# echo $((`wc -l $listdir/x*.csv | tail -n1 | cut -d" " -f3` - $files))
-# 
-# Unfortunatelly it can take some time if you have millions of the files
-#
 #
 result="/home/lugovoy/md5sum.v5.csv"
 log="/home/lugovoy/md5sum.v5.date"
@@ -29,10 +24,16 @@ echo -e "Previous result deleting is finished"'\t'`date`'\t'
 
 echo -e "Find starts"'\t'`date`'\t'`date +%s` >> $log
 echo -e "Find starts"'\t'`date`'\t'`date +%s`
-find "${root}" -type f ! -path "/media/samba/NAS/*" ! -path "/media/samba/nas/*" ! -path "/media/samba/printer/*" > $filelist
-files=`wc -l $filelist | cut -d" " -f1`
+find "${root}" -type f ! -path "/media/samba/NAS/*" ! -path "/media/samba/nas/*" ! -path "/media/samba/printer/*" > $filelist.tmp
+files=`wc -l $filelist.tmp | cut -d" " -f1`
 echo -e "Find finished"'\t'$files" files found"'\t'`date`'\t'`date +%s` >> $log
 echo -e "Find finished"'\t'$files" files found"'\t'`date`'\t'
+
+echo -e "Shuffling the files starts"'\t'`date`'\t'`date +%s` >> $log
+echo -e "Shuffling the files starts"'\t'`date`'\t'`date +%s`
+shuf -o $filelist $filelist.tmp
+echo -e "Shuffling the files finished"'\t'`date`'\t'`date +%s` >> $log
+echo -e "Shuffling the files finished"'\t'`date`'\t'
 
 if [ ! -d "$listdir" ]; then mkdir $listdir; fi
 cd $listdir
@@ -43,6 +44,11 @@ let splitby=$files/$maxjobs
 split -l $splitby -a 10 $filelist
 cd ../
 find $listdir -type f > $lists
+
+echo -e "Md5sum processing is started in ""$maxjobs"" parrallel threads"
+echo -e "You can monitor how many files left by performing the followed command:"
+echo -e 'echo $((`wc -l $listdir/x*.csv | tail -n1 | cut -d" " -f3` - $files))'
+echo -e "Replace \"\$listdir\" by "$listdir" and \"\$files\" by "$files
 
 date_s=`date +%s`
 
