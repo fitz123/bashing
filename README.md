@@ -1,6 +1,6 @@
 # README #
 
-This README explain nothing but:
+This README explains nothing but:
 
 1. This is a bash scripts 
 2. Scripts followed by "cisco-" use vty_runcmd.exp for execute commands on cisco switches
