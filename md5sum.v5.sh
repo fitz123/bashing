@@ -1,10 +1,12 @@
 #!/bin/bash
 # 
 # The script about md5sum multithread calculation
-# Has been used for the fileshare to compare files before and after copy
+# Has been used for the to compare files before and after copy from the one server to the another
 #
 # You can monitor the progress by manually perform the command:
-# echo $((`wc -l $listdir/x*.csv | tail -n1 | cut -d" " -f3` - $filelist))
+# echo $((`wc -l $listdir/x*.csv | tail -n1 | cut -d" " -f3` - $files))
+# 
+# Unfortunatelly it can take some time if you have millions of the files
 #
 #
 result="/home/lugovoy/md5sum.v5.csv"
