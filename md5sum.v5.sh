@@ -9,13 +9,17 @@ filelist="/home/lugovoy/filelist.v5"
 listdir="/home/lugovoy/filelists/"
 lists="/home/lugovoy/lists"
 #root="$1"
-root="/media/samba"
+root="/media/samba/oit/DOMINO/"
 
+echo -e "Previous result deleting is started"'\t'`date`'\t'`date +%s` >> $log
+echo -e "Previous result deleting is started"'\t'`date`'\t'
 rm -f $log
 rm -f $result
 rm -f $lists
 
 find $listdir -type f -exec /bin/rm {} \;
+echo -e "Previous result deleting is finished"'\t'`date`'\t'`date +%s` >> $log
+echo -e "Previous result deleting is finished"'\t'`date`'\t'
 
 echo -e "Find starts"'\t'`date`'\t'`date +%s` >> $log
 echo -e "Find starts"'\t'`date`'\t'`date +%s`
@@ -23,9 +27,10 @@ find "${root}" -type f ! -path "/media/samba/NAS/*" ! -path "/media/samba/nas/*"
 files=`wc -l $filelist | cut -d" " -f1`
 echo -e "Find finished"'\t'$files" files found"'\t'`date`'\t'`date +%s` >> $log
 echo -e "Find finished"'\t'$files" files found"'\t'`date`'\t'
+
 if [ ! -d "$listdir" ]; then mkdir $listdir; fi
 cd $listdir
-maxjobs=$(nproc)
+let maxjobs=`nproc`*3/2
 let splitby=$files/$maxjobs
 #echo $files
 #echo $splitby
@@ -41,6 +46,7 @@ file_proc () {
     fname=//"${file#/media/}"
     sname="${file#/media/samba/*/}"
     echo -e $sum'\t'$sname'\t'$fname >> $list.csv
+    echo "File ""${file##*/}"" has been processed"
 #    echo -e $sum'\t'$sname'\t'$fname
 }
 
