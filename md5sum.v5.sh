@@ -50,7 +50,7 @@ file_proc () {
     fname=//"${file#/media/}"
     sname="${file#/media/samba/*/}"
     echo -e $sum'\t'$sname'\t'$fname >> $list.csv
-    echo "File ""${file##*/}"" has been processed"
+#    echo "File ""${file##*/}"" has been processed"
 #    echo -e $sum'\t'$sname'\t'$fname
 }
 
