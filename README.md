@@ -18,5 +18,4 @@ This README explain nothing but:
 
 ### Who do I talk to? ###
 
-* Repo admin: Artem.Hamatdinov@Unilever.com
 * Scripts author: anton.lugovoi@outlook.com
