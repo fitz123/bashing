@@ -34,7 +34,7 @@ echo -e "Find finished"'\t'$files" files found"'\t'`date`'\t'
 
 if [ ! -d "$listdir" ]; then mkdir $listdir; fi
 cd $listdir
-let maxjobs=`nproc`*3/2
+maxjobs=$(nproc)
 let splitby=$files/$maxjobs
 #echo $files
 #echo $splitby
