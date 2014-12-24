@@ -20,6 +20,8 @@ no file prompt quiet
 end
 wr" > $defdir/cmdfile-cfg
 
+[ -d "$defdir/temp-cfg/" ] || mkdir $defdir/temp-cfg
+
 #Creating a records of the unused ports for each device
 cat $devip | while read line 
         do
