@@ -32,7 +32,7 @@ cat $devip | while read line
                 epass="epass"
 
                 #Execute the script to $output in raw format
-                $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -e $epass -f $defdir/cmdfile-cfg  > $defdir/temp-cfg/$host
+                $scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -e $epass -f $defdir/cmdfile-cfg  > $defdir/temp-cfg/$host
                 
                 # Check if all the commands have been successfully performed
                 res=`grep "bytes copied" $defdir/temp-cfg/$host | wc -l`
