@@ -13,16 +13,14 @@ printf "show interfaces status\nshow mac address-table\n" > $defdir/cmdfile
 #Check file title
 echo "Switch name"$ph"IP address"$ph"Users"$ph"Dlink-connected port" > $result
 
+#Check folder for temporary result save
+[ -d "$defdir/temp-mac-tables/" ] || mkdir $defdir/temp-mac-tables
+
 #Creating a records of the unused ports for each device
 cat $devip | while read line
     do
         host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
-            if [ -d "$defdir/temp-mac-tables/" ]; then
-                output=$defdir/temp-mac-tables/$host
-            else
-                mkdir $defdir/temp-mac-tables
-                output=$defdir/temp-mac-tables/$host
-            fi
+        output=$defdir/temp-mac-tables/$host
         #Getting credentials from $line
         user="root"
         pass=$(echo $line | cut -d',' -f3)
