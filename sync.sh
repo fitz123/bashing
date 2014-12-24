@@ -1,7 +1,7 @@
 #!/bin/bash
 
-dfsuser="s2/hw.refresh"
-dfspassword="Unilever01"
+dfsuser="s2/name"
+dfspassword="password"
 sshuser="kubckyi"
 sshhost="156.5.128.68"
 dfsmountpoint="/mnt/dfs"
