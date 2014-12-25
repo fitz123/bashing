@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# The script about saving running-config to the flash: memory and
-# copying the config to the tfp server.
-# All the cisco commands placed, as usually, inside the cmdfile
+# This is the common script for the cisco tcl
+# You wanna to change tcl commands starting after "printf"
+# You also wanna to change success criteria, the "comm" variable. If the "comm" performed successfully script thinks everything is ok
 #
 #Variables
 defdir=/home/kalina
@@ -14,6 +14,8 @@ printf "conf t
 ip ssh pubkey-chain
 username root
 key-hash ssh-rsa 3AD13E192686B8AFD0A9F2F55451512A" > $defdir/cmdfile-comm
+
+comm="key-hash"
 
 [ -d "$defdir/temp-comm/" ] || mkdir $defdir/temp-comm
 
@@ -31,10 +33,9 @@ cat $devip | while read line
                 #Execute the script to $output in raw format
                 $scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -e $epass -f $defdir/cmdfile-comm  > $defdir/temp-comm/$host
                 
-                # Check if all the commands have been successfully performed
-                #error="Invalid input detected"
-		success="SUCCESS"
-		res=`egrep -A 2 "key-hash" $defdir/temp-comm/$host | tail -n1 | grep "SUCCESS" | wc -l`
+                # Check if the main commands have been successfully executed
+		#
+		res=`egrep -A 2 "$comm" $defdir/temp-comm/$host | tail -n1 | grep "SUCCESS" | wc -l`
                 if [ $res -eq 1 ]; then
                         echo $host" OK"
                 else
