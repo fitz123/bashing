@@ -3,6 +3,9 @@
 # This is the common script for the cisco tcl
 # You wanna to change tcl commands starting after "printf"
 # You also wanna to change success criteria, the "comm" variable. If the "comm" performed successfully script thinks everything is ok
+# 
+# The current script is the example of "Add public auth key for all of the switches"
+# The pubkey auth is added if the "key-hash" command is performed successfully
 #
 #Variables
 defdir=/home/kalina
