@@ -43,4 +43,4 @@ cat $devip | while read line
                 fi
         done
 
-
+#rm -rf $defdir/temp-cfg
