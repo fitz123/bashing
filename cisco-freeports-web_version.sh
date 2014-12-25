@@ -9,7 +9,11 @@ resultweb="/usr/local/share/zabbix/cisco_$1-links.html"
 delim='</td><td>'
 egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" /var/ftp/pub/cisco/$1 | sort | uniq > /tmp/$1
 mv /tmp/$1 /var/ftp/pub/cisco/$1
-
+#
+#
+#Create a file with remote tcl commands
+printf "sh int\nsh ver\n" > $defdir/cmdfile
+#
 #file title
 head="<html><table cols="7"><tr><td>Local Device name"$delim"IP address"$delim"Check date"$delim"All/Down"$delim"Port Name"$delim"Port Status"$delim"Last used</td></tr>"
 echo $head > $result
@@ -18,15 +22,17 @@ echo $head > $result
 cat $devip | while read line
 	do
 		output=$line
-		$scriptdir/vty_runcmd.exp -h $line -f /root/cmd1 > $output
-		#Generate and record the number of unused ports
-		#devname=`cat $output | grep -o '^.*>\|#$' | tail -n1 | sed s/.$//`
+		# Execute tcl commands. Credentials are inside the vty_runcmd.exp file
+		$scriptdir/vty_runcmd.exp -h $line -f $defdir/cmdfile > $output
+		#
 		devname=`cat $output | egrep -o '^.*>|^.*#' | tail -n1 | sed s/.$//`
+		# Grab the information
+		# 
 		IP=`echo $line | grep -o '[0-9].*[0-9]'`
 		allports=`cat $output | grep tEthernet | wc -l`
 		free=`cat $output | grep "is down, line protocol is down" | grep -v "sh int" | wc -l`
-		#ML=`cat $output | grep "Model number" | sed 's/Model number.*://g'| sed s/'\s'//g`
-	  egrep "GigabitEthernet[0-9]|FastEthernet[0-9]" $output | sed 's/\x08\{3\}//g' | sed 's/--More--//g' | while read str
+
+		egrep "GigabitEthernet[0-9]|FastEthernet[0-9]" $output | sed 's/\x08\{3\}//g' | sed 's/--More--//g' | while read str
 	     do
 		int=`echo $str | cut -d " " -f1`
 		status=`echo $str | grep -o "(.*)" | sed 's/[()]//g'`
@@ -39,6 +45,7 @@ cat $devip | while read line
 		rm $output
 	done
 
+rm $output
 cat $result | uniq > /tmp/$1
 mv /tmp/$1 $result
 cp $result $resultweb

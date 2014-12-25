@@ -8,7 +8,7 @@ ph=';' #place holder
 result=$defdir/dlinks.txt
 
 #Create a file with remote tcl commands
-printf "show interfaces status\nshow mac address-table\n" > $defdir/cmdfile
+printf "show interfaces status\nshow mac address-table\n" > $defdir/cmdfile-dlink
 
 #Check file title
 echo "Switch name"$ph"IP address"$ph"Users"$ph"Dlink-connected port" > $result
@@ -19,13 +19,14 @@ echo "Switch name"$ph"IP address"$ph"Users"$ph"Dlink-connected port" > $result
 #Creating a records of the unused ports for each device
 cat $devip | while read line
     do
-        host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
         output=$defdir/temp-mac-tables/$host
         #Getting credentials from $line
+        host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
         user="root"
         pass=$(echo $line | cut -d',' -f3)
         #Execute the script to $output in raw format
-	$scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile > $output
+    	$scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-dlink > $output
+        #
         #Clear output: removing "^M", "tabulators", "--More--" and replacing more that 1 space to 1 space
         sed -i 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/ \+/ /g' $output
         devname=$(cat $output | egrep ".*[>#]$" -m 1 | sed 's/[>#]//')
@@ -36,7 +37,6 @@ cat $devip | while read line
         # 2. Include "trunk" only, 1st word (port), joint strings (ports) and replace spaces to "|" - for further usage by grep
         trunks=$(sed -e '1,/show interfaces status/d;/mac address/,$d' $output | egrep "Gi[0-9]|Fa[0-9]|Te[0-9]|Po[0-9]" |\
         grep trunk | cut -d" " -f1 | xargs | sed 's/ /|/g')
-	#echo $trunks
         #
         # Here we show output beginning from the 2nd tcl command (show mac address-table)
         # 1. We have to exclude $trunks and CPU contained strings
