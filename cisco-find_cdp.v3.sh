@@ -14,10 +14,11 @@ tftp_serv="192.168.100.33"
 #Creating a records of the unused ports for each device
 cat $devip | while read line; do
 
-     #Getting credentials from line
-     host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
-     user="root"
-     pass=`echo $line | cut -d',' -f3`
+    #Getting credentials from line
+    host=`echo $line | cut -d',' -f5`
+    user=`echo $line | cut -d',' -f7`
+    pass=`echo $line | cut -d',' -f3`
+    epass=`echo $line | cut -d',' -f6`
 
      output=$defdir/temp-cdp/$host
      output2=$defdir/temp-cdp/$host-2
