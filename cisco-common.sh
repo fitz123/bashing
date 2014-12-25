@@ -15,26 +15,30 @@ ip ssh pubkey-chain
 username root
 key-hash ssh-rsa 3AD13E192686B8AFD0A9F2F55451512A" > $defdir/cmdfile-comm
 
-[ -d "$defdir/temp-cfg/" ] || mkdir $defdir/temp-comm
+[ -d "$defdir/temp-comm/" ] || mkdir $defdir/temp-comm
 
 #Creating a records of the unused ports for each device
 cat $devip | while read line 
         do
                 #Getting credentials from line
                 host=`echo $line | cut -d',' -f5`
-                user="user"
+                user=`echo $line | cut -d',' -f7`
                 pass=`echo $line | cut -d',' -f3`
-                epass="epass"
+                epass=`echo $line | cut -d',' -f6`
+
+#echo $host $user $pass $epass
 
                 #Execute the script to $output in raw format
                 $scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -e $epass -f $defdir/cmdfile-comm  > $defdir/temp-comm/$host
                 
                 # Check if all the commands have been successfully performed
-                res=`grep "bytes copied" $defdir/temp-cfg/$host | wc -l`
-                if [ $res -eq 2 ]; then
+                #error="Invalid input detected"
+		success="SUCCESS"
+		res=`egrep -A 2 "key-hash" $defdir/temp-comm/$host | tail -n1 | grep "SUCCESS" | wc -l`
+                if [ $res -eq 1 ]; then
                         echo $host" OK"
                 else
-                        echo $host" failed"
+                        echo $host" fail"
                 fi
         done
 
