@@ -21,9 +21,10 @@ cat $devip | while read line
     do
         output=$defdir/temp-mac-tables/$host
         #Getting credentials from $line
-        host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
-        user="root"
-        pass=$(echo $line | cut -d',' -f3)
+        host=`echo $line | cut -d',' -f5`
+        user=`echo $line | cut -d',' -f7`
+        pass=`echo $line | cut -d',' -f3`
+        epass=`echo $line | cut -d',' -f6`
         #Execute the script to $output in raw format
     	$scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-dlink > $output
         #
