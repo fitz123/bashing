@@ -21,9 +21,10 @@ cat $devip | while read line
     do
         output=$defdir/output-inv
         #Getting credentials from line
-        host=`echo $line | cut -d',' -f5 | sed 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/  \+/;/g'`
-        user="root"
+        host=`echo $line | cut -d',' -f5`
+        user=`echo $line | cut -d',' -f7`
         pass=`echo $line | cut -d',' -f3`
+        epass=`echo $line | cut -d',' -f6`
         #Execute the script to $output in raw format
         $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-mod > $output
         #
