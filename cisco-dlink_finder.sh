@@ -41,11 +41,11 @@ cat $devip | while read line
         grep trunk | cut -d" " -f1 | xargs | sed 's/ /|/g')
         #
         # Here we show output beginning from the 2nd tcl command (show mac address-table)
-        # 1. We have to exclude $trunks and CPU contained strings
+        # 1. We have to exclude "$trunks", "CPU" and " 57 " vlan contained strings
         # 2. By awk and we print ports only. By "uniq -D" we print duplicates only, by "uniq -c" we count how many times it duplicates
         # 3. In the end we add Device name and its IP address at the begin of each line and write result to the $result
         # In total we have list on the ports that have more than 1 mac behind and how many
-        sed -e '1,/show mac address-table/d' $output | egrep -i -v "$trunks|CPU" | egrep "Gi[0-9]|Fa[0-9]|Te[0-9]|Po[0-9]" |\
+        sed -e '1,/show mac address-table/d' $output | egrep -i -v "$trunks|CPU| 57 " | egrep "Gi[0-9]|Fa[0-9]|Te[0-9]|Po[0-9]" |\
         awk '{print $4}' | uniq -D | uniq -c |\
         sed "s/^/$devname $host/" | sed "s/ \+/$ph/g" >> $result
         echo "Host $host processed"
