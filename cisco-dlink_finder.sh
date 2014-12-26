@@ -19,12 +19,13 @@ echo "Switch name"$ph"IP address"$ph"Users"$ph"Dlink-connected port" > $result
 #Creating a records of the unused ports for each device
 cat $devip | while read line
     do
-        output=$defdir/temp-mac-tables/$host
         #Getting credentials from $line
         host=`echo $line | cut -d',' -f5`
         user=`echo $line | cut -d',' -f7`
         pass=`echo $line | cut -d',' -f3`
         epass=`echo $line | cut -d',' -f6`
+        #Temp dir
+        output=$defdir/temp-mac-tables/$host
         #Execute the script to $output in raw format
     	$scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-dlink > $output
         #
