@@ -27,9 +27,9 @@ cat $devip | while read line
         do
                 #Getting credentials from line
                 host=`echo $line | cut -d',' -f5`
-                user="user"
+                user=`echo $line | cut -d',' -f7`
                 pass=`echo $line | cut -d',' -f3`
-                epass="epass"
+                epass=`echo $line | cut -d',' -f6`
 
                 #Execute the script to $output in raw format
                 $scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -e $epass -f $defdir/cmdfile-cfg  > $defdir/temp-cfg/$host
