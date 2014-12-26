@@ -36,11 +36,13 @@ cat $devip | while read line
         do
             #Get a module name and its description
             module=`echo $name | cut -d, -f1 | sed s/NAME://g || unknown`
-            desc=`echo $name | cut -d, -f2 | sed s/DESCR://g | sed 's/.$//' || unknown`
+            # deleted "sed 's/.$//'"
+            desc=`echo $name | cut -d, -f2 | sed s/DESCR://g || unknown`
             #Grab the module SN
             SN=`cat $output | grep -A 1 -e "$name" | grep -o "SN:.*" | sed s/SN://g || unknown`
             #Save result
             echo $devname$ph$module$ph$desc$ph$SN >> $result
         done
+        echo "Host $host processed"
         #rm $output
     done
