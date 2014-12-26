@@ -24,8 +24,8 @@ cat $devip | while read line
         user=`echo $line | cut -d',' -f7`
         pass=`echo $line | cut -d',' -f3`
         epass=`echo $line | cut -d',' -f6`
-	#Temp dir
-	output=$defdir/temp-inv/$host
+	    #Temp dir
+	    output=$defdir/temp-inv/$host
         #Execute the script to $output in raw format
         $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-inv > $output
         #
