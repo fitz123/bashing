@@ -14,19 +14,19 @@ printf "sh inventory" > $defdir/cmdfile-inv
 echo "Switch name"$ph"Module Name"$ph"Module Describe"$ph"Serial Number" > $result
 
 #Check folder for temporary result save
-[ -d "$defdir/output-inv" ] || mkdir $defdir/output-inv
+[ -d "$defdir/temp-inv" ] || mkdir $defdir/temp-inv
 
 #Creating a records of the unused ports for each device
 cat $devip | while read line
     do
-        output=$defdir/output-inv
+        output=$defdir/temp-inv/$host
         #Getting credentials from line
         host=`echo $line | cut -d',' -f5`
         user=`echo $line | cut -d',' -f7`
         pass=`echo $line | cut -d',' -f3`
         epass=`echo $line | cut -d',' -f6`
         #Execute the script to $output in raw format
-        $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-mod > $output
+        $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-inv > $output
         #
         #Clear output: removing "^M", "tabulators", "--More--" and replacing more that 1 space to 1 space
         sed -i 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/ \+/ /g' $output
