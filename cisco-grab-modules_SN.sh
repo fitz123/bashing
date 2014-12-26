@@ -27,7 +27,7 @@ cat $devip | while read line
 	    #Temp dir
 	    output=$defdir/temp-inv/$host
         #Execute the script to $output in raw format
-        $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-inv > $output
+        $scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile-inv > $output
         #
         #Clear output: removing "^M", "tabulators", "--More--" and replacing more that 1 space to 1 space
         sed -i 's/\x0D//g;s/\x08\{3\}//g;s/--More--//g;s/ \+/ /g' $output
