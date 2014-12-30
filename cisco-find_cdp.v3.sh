@@ -24,7 +24,7 @@ cat $devip | while read line; do
      output2=$defdir/temp-cdp/$host-2
 
      #Execute the script to $output in raw format
-     $scriptdir/vty_runcmd2.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile5 > $output
+     $scriptdir/vty_runcmd.exp -m ssh -h $host -u $user -p $pass -f $defdir/cmdfile5 > $output
 
      #Review only strings contained interface type and 1 string above
      grep -ve "--" $output | grep -v "NAME:" | grep -v "Device ID" | egrep -B 1 "Fas|Gig|Ten" > $output2
