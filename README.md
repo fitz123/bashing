@@ -12,7 +12,7 @@ This README explains nothing but:
 
 ### How do I get set up? ###
 
-* Each script have to be reviewed for dependencies and hierarchy
+* Each script has to be reviewed for dependencies and hierarchy
 * Most of scripts require credentials
 * All "cisco-" scripts require vty_runcmd.exp file and "tcl" package to be installed
 
