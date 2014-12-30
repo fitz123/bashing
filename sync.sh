@@ -1,5 +1,16 @@
 #!/bin/bash
-
+#
+# The script is about 2 different folders synchronization
+# The script has been used for synchronize SMB and DFS directories by templates
+# You want to set variables for usernames and passwords (public key is used for ssh)
+#
+# Script executes with a parameter. For example:
+#
+# ./sync.sh ubs
+# Will sync /mnt/dfs/ubs --> /mnt/sshfs/ubs (preserve all, delete extraneous files from destination dirs)
+# by mounting //156.5.128.185/PrintShare/UBS to $dfsmountpoint/ubs
+# and \\samba\print\UBS to $dfsmountpoint/ubs
+#
 dfsuser="s2/name"
 dfspassword="password"
 sshuser="kubckyi"
@@ -54,7 +65,7 @@ sync() {
         dir=`basename "${sync_dst}"`
         echo "Sync "$sync_src" --> "$sync_dst" starting"
         stime=`date +%s`
-        rsync --progress -utr -O "${sync_src}" "${sync_dst}" >$log 2>>$err
+        rsync --progress --delete -utr -O "${sync_src}" "${sync_dst}" >$log 2>>$err
         if [ $? -eq 0 ]; then
                 chd=`grep -c xfer $log`
                 del=`grep -c deleting $log`
