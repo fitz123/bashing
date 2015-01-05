@@ -14,7 +14,7 @@ file="autobrightness-sample.jpg"
 sdir="/tmp"
 commit='date +%Y/%m/%d-%H:%M:%S'
 sleep=$(cat ~/.config/wildguppy/config.json | cut -d\" -f4)
-condition="wildguppy.py"
+condition="wildguppy.py|panel_app.py"
 repo="https://fitz123@bitbucket.org/fitz123/spy.git"
 pushevery=600
 
@@ -31,7 +31,7 @@ let time1=`date +%s`/$pushevery
 while true; do
 	
 	# While a process $condition up and running we add and commit our file 
-	while [ `ps -ef | grep "$condition" | wc -l` -gt 1 ]; do 
+	while [ `ps -ef | egrep "$condition" | wc -l` -gt 1 ]; do 
 		git --work-tree=$sdir add $file && \
 		git commit -m "`$commit`"
 		# Check the time, if more then $pushevery time left - do the push
