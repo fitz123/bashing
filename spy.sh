@@ -3,7 +3,7 @@
 # Script periodically uploads to git a $file
 # 
 # For download all the file versions you need to execute:
-# mkdir /tmp/dump && git log --oneline > /tmp/dump/log
+# cd ~/spy && mkdir /tmp/dump ; git log --oneline > /tmp/dump/log
 # while read i; do git show `echo $i | cut -d" " -f1`:autobrightness-sample.jpg \
 # > "/tmp/dump/`echo $i | cut -d" " -f2 | sed 's/\//-/g'`.jpg" ; done </tmp/dump/log 
 #
