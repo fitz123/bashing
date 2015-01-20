@@ -23,8 +23,15 @@ pushevery=600
 cd $gdir
 git remote set-url origin $repo
 
+# Check if there a git locks himself
+[ -f $gdir/.git/index.lock ] && rm $gdir/.git/index.lock
+
 # Script starts
-let stime=$sleep+3
+
+# Determine how often file should be commited. It does commit every photo but not often then every 30 sec
+stime=30
+[ $sleep -gt $stime ] && let stime=$sleep+3; echo $stime
+
 let time1=`date +%s`/$pushevery
 
 # If a process $condition doesn't run - sleep for a 5 mins 
