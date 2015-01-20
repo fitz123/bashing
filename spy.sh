@@ -16,7 +16,7 @@ commit='date +%Y/%m/%d-%H:%M:%S'
 sleep=$(cat ~/.config/wildguppy/config.json | cut -d\" -f4)
 condition="wildguppy.py|panel_app.py"
 repo="https://fitz123@bitbucket.org/fitz123/spy.git"
-pushevery=600
+pushevery=30
 
 # Check if work directory exist
 [ -d $gdir ] || { mkdir -p $gdir && cd $gdir && git clone $repo; }
@@ -43,7 +43,7 @@ while true; do
 		git commit -m "`$commit`"
 		# Check the time, if more then $pushevery time left - do the push
 		let time2=`date +%s`/$pushevery
-		[ $time1 -ne $time2 ] && git push origin master && time1=$time2
+		[ $time1 -ne $time2 ] && git push origin master --force && time1=$time2
 		sleep $stime
 	done
 
