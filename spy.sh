@@ -16,7 +16,7 @@ commit='date +%Y/%m/%d-%H:%M:%S'
 sleep=$(cat ~/.config/wildguppy/config.json | cut -d\" -f4)
 condition="wildguppy.py|panel_app.py"
 repo="https://fitz123@bitbucket.org/fitz123/spy.git"
-pushevery=30
+pushevery=600
 
 # Check if work directory exist
 [ -d $gdir ] || { mkdir -p $gdir && cd $gdir && git clone $repo; }
@@ -28,8 +28,8 @@ git remote set-url origin $repo
 
 # Script starts
 
-# Determine how often file should be commited. It does commit every photo but not often then every 30 sec
-stime=30
+# Determine how often file should be commited. It does commit every photo but not often then every 60 sec
+stime=60
 [ $sleep -gt $stime ] && let stime=$sleep+3; echo $stime
 
 let time1=`date +%s`/$pushevery
