@@ -19,7 +19,7 @@ repo="https://fitz123@bitbucket.org/fitz123/spy.git"
 pushevery=600
 
 # Check if work directory exist
-[ -d $gdir ] || { mkdir -p $gdir && cd $gdir && git clone $repo; }
+[ -d $gdir ] || { cd ~ && git clone $repo; }
 cd $gdir
 git remote set-url origin $repo
 
